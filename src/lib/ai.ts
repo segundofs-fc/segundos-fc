@@ -1,12 +1,7 @@
 import { AiAnalysis, AiWeights, UserProfile } from './types'
 import { defaultWeights } from './scoring'
 
-const geminiApiKeys = [
-  'AQ.Ab8RN6KuQslbg6AfDV6xdNTnfgCf_gPnjc7QuFQPDlkMAnhOww',
-  'AQ.Ab8RN6IHoA8s0tS2PNkMikdT9_vKReM7nIHZaHCKnc7WJi1nhA',
-  'AQ.Ab8RN6IAN2-W6UXgF56YOeexyr5xLAX0J0xvnkBp_sY_e6-3qQ',
-  'AQ.Ab8RN6JpF_hPh_SpBoJkInNbJL7wa8IY4wDWIggFdcoas87x1w',
-]
+const geminiApiKeys = (import.meta.env.VITE_GEMINI_API_KEYS || '').split(',').filter(Boolean);
 
 const geminiModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
 
@@ -77,7 +72,7 @@ Equipos válidos: ${teams.join(', ')}.
 Criterios:
 - Si el usuario dice únicamente/solo/solamente una selección, teamAffinity debe quedar entre 0.40 y 0.55.
 - Si el usuario elige mañana, tarde y noche, el horario no diferencia tanto porque acepta todo el día argentino.
-- Si el usuario menciona historia, subí history.
+- Si menciona historia, subí history.
 - Si menciona figuras, subí starAffinity.
 - Si menciona sorpresas tácticas o underdog, subí underdog.
 - No clasifiques partidos. Solo ajustá pesos e inferí equipos.
