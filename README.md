@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# Segundos FC - Tu tiempo, tu Mundial
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación Vite + React para recomendar partidos de fase de grupos del Mundial 2026 según perfil del usuario.
 
-Currently, two official plugins are available:
+## Qué incluye esta versión
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Login local y perfil persistido en `localStorage`.
+- Selección múltiple de selecciones favoritas.
+- Preguntas de perfil: región, horarios disponibles, máximo de partidos completos por día, historia, viralidad, underdog y respuesta abierta.
+- Ranking inicial con todos los partidos ordenados de mayor a menor relevancia.
+- Filtros por categoría: `Imperdible`, `Relevante` y `Para ver el resumen`.
+- Página de partidos sin formulario lateral de edición.
+- Página separada para editar perfil.
+- Recálculo automático cuando cambia el perfil.
+- Integración opcional con Gemini para ajustar pesos del modelo.
+- Fallback heurístico local si Gemini falla.
+- Histórico reciente de los últimos cuatro mundiales como variable de ponderación.
 
-## React Compiler
+## Cómo correr
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Cómo se calcula
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Cada partido recibe una ponderación interna basada en:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Afinidad con selecciones favoritas.
+2. Jugadores favoritos.
+3. Encaje horario.
+4. Calidad deportiva estimada por ranking, paridad y rivalidad.
+5. Narrativa del partido.
+6. Región preferida.
+7. Historial reciente de los últimos cuatro mundiales.
+8. Factor viral.
+9. Factor underdog.
+10. Límite de partidos completos por día.
+
+La app no muestra el score numérico al usuario final: solo muestra el partido, la categoría y las razones.
+
+## IA
+
+La IA no decide directamente qué partido recomendar. Solo ajusta los pesos de los factores según el perfil y la respuesta abierta. Si Gemini responde mal, devuelve 404, falla por CORS o no hay cuota, se usa el cálculo local.
+
+Importante: en una aplicación 100% frontend, cualquier API key usada desde el navegador puede verse en la pestaña Network. Para ocultarla realmente hace falta un backend/proxy o serverless function.
