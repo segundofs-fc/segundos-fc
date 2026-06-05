@@ -45,3 +45,6 @@ La app no muestra el score numérico al usuario final: solo muestra el partido, 
 La IA no decide directamente qué partido recomendar. Solo ajusta los pesos de los factores según el perfil y la respuesta abierta. Si Gemini responde mal, devuelve 404, falla por CORS o no hay cuota, se usa el cálculo local.
 
 Importante: en una aplicación 100% frontend, cualquier API key usada desde el navegador puede verse en la pestaña Network. Para ocultarla realmente hace falta un backend/proxy o serverless function.
+
+## .env
+EL .env deberia tener la api key (Nuestro caso gemini) que se va a utilizar a la hora de levantar el proyecto, Ej: VITE_GEMINI_API_KEYS=AQ.Ab8RN6LYUwVZiWF_FPM3WNNTV4GKa-37tyVcEm4h-b_vOSeuVw,AQ.Ab8RN6JvyUSFATCFY0nyZR2HBvHmgQt6HQ_IblVbedvQ0_fGoA,AQ.Ab8RN6KiixiaRF2fF0iPleYiGZZFjlYXQROfb91-cHg_0zMv7Q,AQ.Ab8RN6Jlpf0NiNj5Og2pQEog5fncZmZmHdPuP5yEydrsRH88Iw
